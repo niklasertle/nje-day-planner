@@ -1,4 +1,5 @@
 var currentDay = $('#currentDay');
+var saveBtn = $('.save-btn')
 
 var form9 = $('#form-9');
 var form10 = $('#form-10');
@@ -8,6 +9,7 @@ var form1 = $('#form-1');
 var form2 = $('#form-2');
 var form3 = $('#form-3');
 var form4 = $('#form-4');
+var form5 = $('#form-5');
 
 var time9 = moment().startOf('day').add(9, 'hours');
 var time10 = moment().startOf('day').add(10, 'hours');
@@ -17,8 +19,7 @@ var time1 = moment().startOf('day').add(13, 'hours');
 var time2 = moment().startOf('day').add(14, 'hours');
 var time3 = moment().startOf('day').add(15, 'hours');
 var time4 = moment().startOf('day').add(16, 'hours');
-
-console.log(time3);
+var time5 = moment().startOf('day').add(17, 'hours');
 
 //Updates current date and time using moment and updates the text area
 var currentTime = moment().format('dddd MMM, do - h:mm a');
@@ -27,7 +28,6 @@ currentDay.text(currentTime);
 //Update time slots to be able to tell if the time has passed current slot
 function setSchedule(){
     var currentHour = moment().startOf('hour');
-    console.log('Called');
     //9am Slot
     if (currentHour.isAfter(time9)){
         form9.addClass('past');
@@ -58,13 +58,10 @@ function setSchedule(){
     //12pm Slot
     if (currentHour.isAfter(time12)){
         form12.addClass('past');
-        console.log('Hi');
     } else if (currentHour.isSame(time12)) {
         form12.addClass('present');
-        console.log('hey');
     } else if (currentHour.isBefore(time12)){
         form12.addClass('future')
-        console.log('hello');
     };
 
     //1pm Slot
@@ -102,8 +99,25 @@ function setSchedule(){
     } else if (currentHour.isBefore(time4)){
         form4.addClass('future')
     };
+
+    //5pm Slot
+    if (currentHour.isAfter(time5)){
+        form5.addClass('past');
+    } else if (currentHour.isSame(time5)) {
+        form5.addClass('present');
+    } else if (currentHour.isBefore(time5)){
+        form5.addClass('future')
+    };
 };
 setSchedule();
+
 //Save inputs to local storage while keeping forms filled
+saveBtn.click(function() {
+    event.preventDefault();
+    var savedEvent = $(this).siblings('input').val().trim();
+    var listItem = $(this).parent().data('time');
+
+    localStorage.setItem(listItem, savedEvent);
+});
 
 //Pull from local storage to fill on page refresh
