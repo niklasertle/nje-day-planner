@@ -1,5 +1,6 @@
 var currentDay = $('#currentDay');
 var saveBtn = $('.save-btn')
+var clearBtn = $('#clear-btn')
 
 var form9 = $('#form-9');
 var form10 = $('#form-10');
@@ -115,9 +116,21 @@ setSchedule();
 saveBtn.click(function() {
     event.preventDefault();
     var savedEvent = $(this).siblings('input').val().trim();
-    var listItem = $(this).parent().data('time');
+    var timeSlot = $(this).parent().data('time');
 
-    localStorage.setItem(listItem, savedEvent);
+    localStorage.setItem(timeSlot, savedEvent);
 });
 
 //Pull from local storage to fill on page refresh
+var savedData = [9, 10, 11, 12, 1, 2, 3, 4, 5];
+
+for (let i = 0; i < savedData.length; i++) {
+    var data = localStorage.getItem(savedData[i]);
+    $('#form-' + savedData[i]).val(data);
+};
+
+//Clears localStorage to clear the day planner
+clearBtn.click(function() {
+    localStorage.clear();
+    location.reload(); 
+});
