@@ -1,7 +1,7 @@
+//Querying HTML elements
 var currentDay = $('#currentDay');
 var saveBtn = $('.save-btn')
 var clearBtn = $('#clear-btn')
-
 var form9 = $('#form-9');
 var form10 = $('#form-10');
 var form11 = $('#form-11');
@@ -12,6 +12,7 @@ var form3 = $('#form-3');
 var form4 = $('#form-4');
 var form5 = $('#form-5');
 
+//Times to be used to change the color of the the forms to future, past, or present
 var time9 = moment().startOf('day').add(9, 'hours');
 var time10 = moment().startOf('day').add(10, 'hours');
 var time11 = moment().startOf('day').add(11, 'hours');
@@ -26,7 +27,7 @@ var time5 = moment().startOf('day').add(17, 'hours');
 var currentTime = moment().format('dddd MMM, do - h:mm a');
 currentDay.text(currentTime);
 
-//Update time slots to be able to tell if the time has passed current slot
+//Update time slots to be able to tell if the time has passed current time slot, then adds a class to each form element to change the color based on past, present, or future
 function setSchedule(){
     var currentHour = moment().startOf('hour');
     //9am Slot
@@ -112,7 +113,7 @@ function setSchedule(){
 };
 setSchedule();
 
-//Save inputs to local storage while keeping forms filled
+//Saves inputs from the forms to localStorage to be used on page reload, keeps the forms filled as they are still needed by the user
 saveBtn.click(function() {
     event.preventDefault();
     var savedEvent = $(this).siblings('input').val().trim();
@@ -121,7 +122,7 @@ saveBtn.click(function() {
     localStorage.setItem(timeSlot, savedEvent);
 });
 
-//Pull from local storage to fill on page refresh
+//Pulls the data from localStorage to fill out each inputs val with prior inputs when page is reloaded
 var savedData = [9, 10, 11, 12, 1, 2, 3, 4, 5];
 
 for (let i = 0; i < savedData.length; i++) {
